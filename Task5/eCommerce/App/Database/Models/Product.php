@@ -351,6 +351,13 @@ class Product extends Model implements ConnectTo
         $stmt->execute();
         return $stmt;
     }
+    public function mostOrderdProduct($status = 1){
+        $query = "SELECT * FROM `order_detalis` WHERE `status` = ? ORDER BY `Count_product` DESC , `prouduct_name` ASC";
+        $stmt = $this->con->prepare($query);
+        $stmt->bind_param('i', $status);
+        $stmt->execute();
+        return $stmt;
+    }
 
 }
 

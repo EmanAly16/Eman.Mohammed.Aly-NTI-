@@ -12,6 +12,8 @@ $brand = new Brand;
 $brands = $brand->all()->get_result();
 $product = new Product;
 $products = $product->orderdProducts()->get_result();
+$mostOrdered=$product->mostOrderdProduct()->get_result();
+//print_r($mostOrdered);die;
 
 ?>
 <!-- Slider Start -->
@@ -177,41 +179,69 @@ $products = $product->orderdProducts()->get_result();
 <!-- New Products End -->
 
 <!-- Most Order Product Area Start -->
-<div class="product-area bg-image-1 pt-100 pb-95">
+<div class="product-area gray-bg pt-90 pb-65">
     <div class="container">
         <div class="product-top-bar section-border mb-55">
             <div class="section-title-wrap text-center">
                 <h3 class="section-title">Most Order Product</h3>
             </div>
         </div>
-        <div class="row">
-            <?php
-            // if ($brands->num_rows >= 1) {
-            //     foreach ($brands->fetch_all(MYSQLI_ASSOC) as $brand) { 
-            ?>
-            <div class="col-2">
-                <div class="product-img">
-                    <a href="shop.php?brand=<?= $brand['id'] ?>">
-                        <img alt="<?= $brand['name_en'] ?>" src="assets/img/brand-logo/<?= $brand['image'] ?>">
-                    </a>
-                </div>
-                <div class="product-content text-left">
-                    <div class="product-hover-style">
-                        <div class="product-title">
-                            <h4>
-                                <a href="shop.php?brand=<?= $brand['id'] ?>"><?= $brand['name_en'] ?></a>
-                            </h4>
-                        </div>
-                        <div class="cart-hover">
-                            <h4><a href="shop.php?brand=<?= $brand['id'] ?>">+ Add to cart</a></h4>
-                        </div>
-                    </div>
+        <div class="tab-content jump">
+            <div class="tab-pane active">
+                <div class="row">
+                    <!-- <div class="product-wrapper-single"> -->
+
+                    <?php
+                    $count = 0;
+                    if ($mostOrdered->num_rows >= 1) {
+                        foreach ($mostOrdered->fetch_all(MYSQLI_ASSOC) as $product) {
+                           // print_r($product);die;
+                            if ($count == 4)
+                                break;
+                            $count++; ?>
+
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-6 mb-20">
+
+                                <div class="product-wrapper mb-60">
+                                    <div class="product-img">
+                                        <a href="product-details.php?product=<?= $product['product_id'] ?>">
+                                            <img alt="" src="assets/img/product/<?= $product['prouduct_image'] ?>">
+                                        </a>
+                                        <div class="product-action">
+                                            <a class="action-wishlist" href="#" title="Wishlist">
+                                                <i class="ion-android-favorite-outline"></i>
+                                            </a>
+                                            <a class="action-cart" href="#" title="Add To Cart">
+                                                <i class="ion-ios-shuffle-strong"></i>
+                                            </a>
+                                            <a class="action-compare" href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
+                                                <i class="ion-ios-search-strong"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content text-left">
+                                        <div class="product-hover-style">
+                                            <div class="product-title">
+                                                <h4>
+                                                    <a href="product-details.php?product=<?= $product['product_id'] ?>"><?= $product['prouduct_name'] ?></a>
+                                                </h4>
+                                            </div>
+                                            <div class="cart-hover">
+                                                <h4><a href="product-details.php?product=<?= $product['product_id'] ?>">+ Add to cart</a></h4>
+                                            </div>
+                                        </div>
+                                        <div class="product-price-wrapper">
+                                            <span><?= $product['prouduct_price'] ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                    <?php }
+                    } ?>
                 </div>
             </div>
-            <?php
-            // }
-            // }
-            ?>
         </div>
     </div>
 </div>
